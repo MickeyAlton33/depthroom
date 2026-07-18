@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#121411" />
+  <meta name="description" content="Create, paint, preview, and export single-image autostereograms directly in your browser." />
+  <meta property="og:title" content="Depthroom — Stereogram Studio" />
+  <meta property="og:description" content="Make hidden depth appear. A private, browser-based stereogram creator." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="preview.svg" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <title>Depthroom — Stereogram Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Depthroom home">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span>DEPTHROOM</span>
+    </a>
+    <div class="top-actions">
+      <button class="text-btn" id="helpBtn">How it works</button>
+      <button class="text-btn" id="newProject">New canvas</button>
+      <button class="export-btn" id="downloadBtn"><span>Export PNG</span><b aria-hidden="true">↗</b></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="eyebrow"><span></span> SINGLE IMAGE STEREOGRAM STUDIO</p>
+      <h1>Make depth<br><em>appear.</em></h1>
+      <p class="intro">Paint a hidden form, choose its texture, then let your eyes drift beyond the surface.</p>
+    </section>
+
+    <section class="studio" aria-label="Stereogram editor">
+      <aside class="sidebar">
+        <div class="step-head">
+          <span>01</span>
+          <div><p>SHAPE</p><h2>Build your depth</h2></div>
+        </div>
+
+        <div class="preset-grid" role="group" aria-label="Shape presets">
+          <button class="preset active" data-preset="orb"><span class="preset-art orb"></span><b>Orb</b></button>
+          <button class="preset" data-preset="heart"><span class="preset-art heart">♥</span><b>Heart</b></button>
+          <button class="preset" data-preset="type"><span class="preset-art type">3D</span><b>Type</b></button>
+          <button class="preset" data-preset="waves"><span class="preset-art waves"></span><b>Waves</b></button>
+        </div>
+
+        <div class="control-section">
+          <div class="section-label"><span>DEPTH MAP</span><div><button id="uploadDepth">Upload</button><button id="invertDepth">Invert</button><button id="undoDepth">Undo</button><button id="clearDepth">Clear</button></div></div>
+          <input id="depthFile" type="file" accept="image/*" hidden />
+          <div class="depth-wrap" id="depthWrap">
+            <canvas id="depthCanvas" width="600" height="360" aria-label="Editable depth map"></canvas>
+            <span class="canvas-hint">PAINT HERE</span>
+          </div>
+          <div class="brush-tools">
+            <button class="tool active" data-tool="paint" title="Paint depth">● <span>Raise</span></button>
+            <button class="tool" data-tool="erase" title="Erase depth">○ <span>Erase</span></button>
+            <label><span>SIZE</span><input id="brushSize" type="range" min="8" max="90" value="42" /></label>
+          </div>
+        </div>
+
+        <div class="control-section">
+          <div class="section-label"><span>DEPTH</span><output id="depthValue">64%</output></div>
+          <input class="wide-range" id="depthStrength" type="range" min="15" max="95" value="64" />
+        </div>
+
+        <div class="control-section">
+          <div class="section-label"><span>OUTPUT SIZE</span><output id="resolutionValue">900 × 540</output></div>
+          <select id="resolution" aria-label="Output resolution">
+            <option value="900x540">Standard · 900 × 540</option>
+            <option value="1400x840">Large · 1400 × 840</option>
+            <option value="1800x1080">Full HD · 1800 × 1080</option>
+          </select>
+        </div>
+
+        <div class="step-head second">
+          <span>02</span>
+          <div><p>SURFACE</p><h2>Choose a texture</h2></div>
+        </div>
+        <div class="patterns" role="group" aria-label="Texture pattern">
+          <button class="pattern active" data-pattern="confetti"><i class="swatch confetti"></i><span><b>Confetti</b><small>Playful + clear</small></span><u>✓</u></button>
+          <button class="pattern" data-pattern="botanical"><i class="swatch botanical"></i><span><b>Botanical</b><small>Soft + organic</small></span><u>✓</u></button>
+          <button class="pattern" data-pattern="mono"><i class="swatch mono"></i><span><b>Mono noise</b><small>Classic + focused</small></span><u>✓</u></button>
+        </div>
+        <button class="generate-mobile" id="generateMobile">Generate stereogram <span>→</span></button>
+      </aside>
+
+      <div class="preview-panel">
+        <div class="preview-top">
+          <div><p>LIVE OUTPUT</p><h2>Your stereogram</h2></div>
+          <button id="regenerate"><span>↻</span> Shuffle texture</button>
+        </div>
+        <div class="canvas-shell">
+          <canvas id="stereoCanvas" width="900" height="540" aria-label="Generated stereogram"></canvas>
+          <div class="focus-dots" aria-hidden="true"><i></i><i></i></div>
+          <div class="loading" id="loading">RENDERING DEPTH…</div>
+        </div>
+        <div class="view-guide">
+          <span class="eye">◉</span>
+          <p><b>HOW TO SEE IT</b><br>Relax your focus and look <em>through</em> the image. Let the two dots above become three.</p>
+        </div>
+        <div class="meta-row"><span id="sizeLabel">900 × 540 PX</span><span>PARALLEL VIEW</span><span id="seedLabel">SEED 0428</span></div>
+      </div>
+    </section>
+  </main>
+
+  <footer><span>DEPTHROOM / 2026</span><p>Private by design. Your images never leave this device.</p><a href="#studio" id="backTop">BACK TO TOP ↑</a></footer>
+  <dialog id="helpDialog">
+    <button class="dialog-close" aria-label="Close help">×</button>
+    <p class="eyebrow"><span></span> VIEWING GUIDE</p>
+    <h2>Look beyond the surface.</h2>
+    <ol><li>Keep the image about 30–40 cm from your eyes.</li><li>Relax your focus as if looking through the screen.</li><li>Let the two guide dots merge into three. Hold that focus.</li></ol>
+    <p class="dialog-tip">Tip: start with the Orb preset and moderate depth. Smaller depth values are easier to see.</p>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
