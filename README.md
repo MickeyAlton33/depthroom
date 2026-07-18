@@ -2,6 +2,8 @@
 
 A private, dependency-free, in-browser studio for creating single-image autostereograms (SIRDS).
 
+**[Launch Depthroom →](https://mickeyalton33.github.io/depthroom/)**
+
 ## Features
 
 - Paint, erase, invert, upload, or choose a preset depth map
