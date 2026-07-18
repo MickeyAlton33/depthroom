@@ -50,6 +50,10 @@
           <button class="preset" data-preset="type"><span class="preset-art type">3D</span><b>Type</b></button>
           <button class="preset" data-preset="waves"><span class="preset-art waves"></span><b>Waves</b></button>
         </div>
+        <div class="type-composer">
+          <label for="hiddenText">HIDDEN MESSAGE</label>
+          <div><input id="hiddenText" maxlength="12" value="WOW" placeholder="Type a word" /><button id="applyText">Set in depth</button></div>
+        </div>
 
         <div class="control-section">
           <div class="section-label"><span>DEPTH MAP</span><div><button id="uploadDepth">Upload</button><button id="invertDepth">Invert</button><button id="undoDepth">Undo</button><button id="clearDepth">Clear</button></div></div>
@@ -62,6 +66,10 @@
             <button class="tool active" data-tool="paint" title="Paint depth">● <span>Raise</span></button>
             <button class="tool" data-tool="erase" title="Erase depth">○ <span>Erase</span></button>
             <label><span>SIZE</span><input id="brushSize" type="range" min="8" max="90" value="42" /></label>
+          </div>
+          <div class="brush-detail">
+            <label><span>SOFTNESS</span><input id="brushSoftness" type="range" min="0" max="100" value="65" /></label>
+            <label><span>FLOW</span><input id="brushFlow" type="range" min="5" max="100" value="38" /></label>
           </div>
         </div>
 
@@ -87,6 +95,18 @@
           <button class="pattern active" data-pattern="confetti"><i class="swatch confetti"></i><span><b>Confetti</b><small>Playful + clear</small></span><u>✓</u></button>
           <button class="pattern" data-pattern="botanical"><i class="swatch botanical"></i><span><b>Botanical</b><small>Soft + organic</small></span><u>✓</u></button>
           <button class="pattern" data-pattern="mono"><i class="swatch mono"></i><span><b>Mono noise</b><small>Classic + focused</small></span><u>✓</u></button>
+          <button class="pattern" data-pattern="custom" id="customPattern"><i class="swatch custom">＋</i><span><b>Your image</b><small>Upload a texture</small></span><u>✓</u></button>
+        </div>
+        <input id="textureFile" type="file" accept="image/*" hidden />
+        <div class="surface-controls">
+          <div class="section-label"><span>COLOR MOOD</span><output id="paletteName">SUNSHINE</output></div>
+          <div class="palette-row" role="group" aria-label="Color palette">
+            <button class="palette active" data-palette="sunshine" aria-label="Sunshine palette"><i></i><i></i><i></i></button>
+            <button class="palette" data-palette="lagoon" aria-label="Lagoon palette"><i></i><i></i><i></i></button>
+            <button class="palette" data-palette="ultraviolet" aria-label="Ultraviolet palette"><i></i><i></i><i></i></button>
+            <button class="palette" data-palette="noir" aria-label="Noir palette"><i></i><i></i><i></i></button>
+          </div>
+          <label class="density-label"><span>GRAIN SCALE</span><input id="grainScale" type="range" min="1" max="10" value="4" /></label>
         </div>
         <button class="generate-mobile" id="generateMobile">Generate stereogram <span>→</span></button>
       </aside>
@@ -94,12 +114,13 @@
       <div class="preview-panel">
         <div class="preview-top">
           <div><p>LIVE OUTPUT</p><h2>Your stereogram</h2></div>
-          <button id="regenerate"><span>↻</span> Shuffle texture</button>
+          <div class="preview-actions"><div class="view-switch"><button class="active" data-view="stereo">STEREO</button><button data-view="depth">DEPTH</button></div><button id="fullscreen" aria-label="Enter fullscreen">⛶</button><button id="regenerate"><span>↻</span> Shuffle texture</button></div>
         </div>
         <div class="canvas-shell">
           <canvas id="stereoCanvas" width="900" height="540" aria-label="Generated stereogram"></canvas>
           <div class="focus-dots" aria-hidden="true"><i></i><i></i></div>
           <div class="loading" id="loading">RENDERING DEPTH…</div>
+          <div class="depth-badge">DEPTH MAP PREVIEW</div>
         </div>
         <div class="view-guide">
           <span class="eye">◉</span>
