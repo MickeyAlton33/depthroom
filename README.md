@@ -4,6 +4,8 @@ A private, dependency-free, in-browser studio for creating single-image autoster
 
 **[Launch Depthroom →](https://mickeyalton33.github.io/depthroom/)**
 
+[![Deploy Depthroom to GitHub Pages](https://github.com/MickeyAlton33/depthroom/actions/workflows/pages.yml/badge.svg)](https://github.com/MickeyAlton33/depthroom/actions/workflows/pages.yml)
+
 ## Features
 
 - Paint, erase, invert, upload, or choose a preset depth map
